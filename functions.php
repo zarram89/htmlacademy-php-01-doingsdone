@@ -10,3 +10,4 @@ function countTasksByProject($tasks, $project) {
 
   return $count;
 }
+
