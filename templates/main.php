@@ -52,7 +52,17 @@
         <?php continue; ?>
       <?php endif; ?>
 
-      <tr class="tasks__item task<?= $task['completed'] ? ' task--completed' : '' ?>">
+      <?php
+      $hours_left = null;
+
+      if ($task['date']) {
+        $task_time = strtotime($task['date']);
+        $current_time = time();
+        $hours_left = floor(($task_time - $current_time) / 3600);
+      }
+      ?>
+
+        <tr class="tasks__item task<?= $task['completed'] ? ' task--completed' : '' ?><?= $hours_left !== null && $hours_left <= 24 ? ' task--important' : '' ?>">
         <td class="task__select">
           <label class="checkbox task__checkbox">
             <input
