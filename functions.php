@@ -11,3 +11,9 @@ function countTasksByProject($tasks, $project) {
   return $count;
 }
 
+function esc($str) {
+  $text = htmlspecialchars($str);
+  //$text = strip_tags($str);
+
+  return $text;
+}
