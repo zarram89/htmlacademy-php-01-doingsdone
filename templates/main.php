@@ -4,14 +4,14 @@
   <nav class="main-navigation">
     <ul class="main-navigation__list">
       <?php foreach ($projects as $project): ?>
-        <li class="main-navigation__list-item">
-          <a class="main-navigation__list-item-link" href="#">
-            <?= htmlspecialchars($project); ?>
-          </a>
-          <span class="main-navigation__list-item-count">
-                                <?= countTasksByProject($tasks, $project); ?>
-                            </span>
-        </li>
+          <li class="main-navigation__list-item">
+              <a class="main-navigation__list-item-link" href="#">
+                <?= htmlspecialchars($project['name']); ?>
+              </a>
+              <span class="main-navigation__list-item-count">
+            <?= countTasksByProject($tasks, $project['name']); ?>
+        </span>
+          </li>
       <?php endforeach; ?>
     </ul>
   </nav>
@@ -48,31 +48,31 @@
   <table class="tasks">
     <?php foreach ($tasks as $task): ?>
 
-      <?php if ($task['completed'] && !$show_complete_tasks): ?>
+      <?php if ($task['status'] && !$show_complete_tasks): ?>
         <?php continue; ?>
       <?php endif; ?>
 
       <?php
       $hours_left = null;
 
-      if ($task['date']) {
-        $task_time = strtotime($task['date']);
+      if ($task['deadline']) {
+        $task_time = strtotime($task['deadline']);
         $current_time = time();
         $hours_left = floor(($task_time - $current_time) / 3600);
       }
       ?>
 
-        <tr class="tasks__item task<?= $task['completed'] ? ' task--completed' : '' ?><?= $hours_left !== null && $hours_left <= 24 ? ' task--important' : '' ?>">
+        <tr class="tasks__item task<?= $task['status'] ? ' task--completed' : '' ?><?= $hours_left !== null && $hours_left <= 24 ? ' task--important' : '' ?>">
         <td class="task__select">
           <label class="checkbox task__checkbox">
             <input
               class="checkbox__input visually-hidden task__checkbox"
               type="checkbox"
               value="1"
-              <?= $task['completed'] ? 'checked' : '' ?>
+              <?= $task['status'] ? 'checked' : '' ?>
             >
             <span class="checkbox__text">
-                <?= htmlspecialchars($task['title']); ?>
+                <?= htmlspecialchars($task['name']); ?>
             </span>
           </label>
         </td>
@@ -82,7 +82,7 @@
         </td>
 
         <td class="task__date">
-          <?= htmlspecialchars($task['date'] ?? ''); ?>
+          <?= htmlspecialchars($task['deadline'] ?? ''); ?>
         </td>
       </tr>
     <?php endforeach; ?>
